@@ -1,0 +1,220 @@
+<style>
+    .error {
+        color: red;
+        border-color: red;
+    }
+</style>
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Tables</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+        <li class="breadcrumb-item active">NEWS DETAILS</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-body">
+            DataTables is a third party plugin that is used to generate the demo table below. For more information about
+            DataTables, please visit the
+            <a target="_blank" href="https://datatables.net/">official DataTables documentation</a>
+            .
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Insert news details
+        </div>
+        <div class="card-body">
+            <a href="/admin/cttintuc/findall" class="btn btn-secondary mb-3 mr-3">News details list</a>
+            <form id="demoForm" runat="server">
+                {{#if data}}
+                <div class="form-group">
+                    <label for="idloai" class="mb-3">News name</label>
+                    <select class="form-control" id="idBaiViet" name="idBaiViet" required class="mb-3">
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="chitietbaiviet" class="mb-3">Details: </label>
+                    <textarea class="form-control" id="chitietbaiviet" name="chitietbaiviet" rows="3" required
+                        class="mb-3">{{data.chitietbaiviet}}</textarea>
+                </div>
+                <div class="form-group">
+                    <img src="/src/views/img/{{data.hinhanh}}" alt="" srcset="" style="width: 352px;height: 179px;"
+                        id="oldHinhAnh"><br>
+                    <label for="hinhanh" class="mb-3">Choose news Image: </label>
+                    <input type="file" class="form-control-file" id="hinhanh" name="hinhanh" class="mb-3">
+                    <img id="blah" src="#" alt="your image" style="width: 352px;height: 179px;" /><br>
+                </div>
+                <button type="submit" class="btn btn-primary update" id={{data.id}}>Submit</button>
+                <script>
+                    $("#demoForm").validate({
+                        onfocusout: false,
+                        onkeyup: false,
+                        onclick: false,
+                        rules: {
+                            "idBaiViet": {
+                                required: true,
+                            },
+                            "chitietbaiviet": {
+                                required: true,
+                                minlength: 5
+                            },
+                        },
+                        messages: {
+                            "idloai": {
+                                required: "Bắt buộc chọn loại tin tức"
+                            },
+                            "chitietbaiviet": {
+                                required: "Bắt buộc nhập tên bài viết",
+                                minlength: "Nội dung bài viết tối thiểu 5 ký tự"
+                            },
+                        }
+                    });
+                    $(".update").click(function (e) {
+                        e.preventDefault();
+                        if ($("#demoForm").valid()) {
+                            var url = "/admin/cttintuc/update/" + $(this).attr("id");
+                            if ($("#hinhanh")[0].files[0] == undefined) {
+                                var hinhAnhCu = $("#oldHinhAnh").attr("src").split("/");
+                                var hinhanh = hinhAnhCu[hinhAnhCu.length - 1];
+                                var idbaiviet = $("#idBaiViet :selected").val();
+                                var chitietbaiviet = $("#chitietbaiviet").val();
+                                var dataJson = {
+                                    'hinhanh':hinhanh,
+                                    'idBaiViet':idbaiviet,
+                                    'chitietbaiviet':chitietbaiviet
+                                };
+                                console.log(dataJson);
+                                ajaxUpdate(url,dataJson,"PUT","Update success","http://localhost:8081/admin/cttintuc/findall","Update news details success");
+                            }
+                            else {
+                                var formData = new FormData();
+                                var hinhanh = $("#hinhanh")[0].files[0];
+                                var idbaiviet = $("#idBaiViet :selected").val();
+                                var chitietbaiviet = $("#chitietbaiviet").val();
+                                formData.append("hinhanh", hinhanh);
+                                formData.append("idBaiViet", idbaiviet);
+                                formData.append("chitietbaiviet", chitietbaiviet);
+                                console.log(idbaiviet + "-----" + chitietbaiviet);
+                                ajaxFormDataUpdate(url, formData,"PUT","Update success","http://localhost:8081/admin/cttintuc/findall","Update news details success");
+                            }
+                        }
+                    });
+
+                </script>
+                {{else}}
+                <div class="form-group">
+                    <label for="idloai" class="mb-3">News name</label>
+                    <select class="form-control" id="idBaiViet" name="idBaiViet" required class="mb-3">
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="chitietbaiviet" class="mb-3">Details: </label>
+                    <textarea class="form-control" id="chitietbaiviet" name="chitietbaiviet" rows="3" required
+                        class="mb-3"></textarea>
+                </div>
+                <div class="form-group">
+                    <img id="blah" src="#" alt="your image" style="width: 352px;height: 179px;" /><br>
+                    <label for="hinhanh" class="mb-3">Image: </label>
+                    <input type="file" class="form-control-file" id="hinhanh" name="hinhanh" required class="mb-3">
+                </div>
+                <button type="submit" class="btn btn-primary" id="insert">Submit</button>
+                <script>
+                    $("#demoForm").validate({
+                        onfocusout: false,
+                        onkeyup: false,
+                        onclick: false,
+                        rules: {
+                            "idBaiViet": {
+                                required: true,
+                            },
+                            "chitietbaiviet": {
+                                required: true,
+                                minlength: 5
+                            },
+                            "hinhanh": {
+                                required: true,
+                            }
+                        },
+                        messages: {
+                            "idBaiViet": {
+                                required: "Bắt buộc chọn loại tin tức"
+                            },
+                            "chitietbaiviet": {
+                                required: "Bắt buộc nhập tên bài viết",
+                                minlength: "Nội dung bài viết tối thiểu 5 ký tự"
+                            },
+                            "hinhanh": {
+                                required: "Bắt buộc chọn 1 hình ảnh"
+                            }
+                        }
+                    });
+                    $("#insert").click(function (e) {
+                        e.preventDefault();
+                        if ($("#demoForm").valid()) {
+                            var formData = new FormData();
+                            var hinhanh = $("#hinhanh")[0].files[0];
+                            var idbaiviet = $("#idBaiViet :selected").val();
+                            var chitietbaiviet = $("#chitietbaiviet").val();
+                            formData.append("hinhanh", hinhanh);
+                            formData.append("idBaiViet", idbaiviet);
+                            formData.append("chitietbaiviet", chitietbaiviet);
+                            console.log(idbaiviet + "-----" + chitietbaiviet);
+                            $.ajax({
+                                type: "POST",
+                                url: "/admin/cttintuc/ins",
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function (response) {
+                                    if (response.idBaiViet == idbaiviet) {
+                                        alert("Add a news details success");
+                                        $("#idBaiViet :selected").val("");
+                                        $("#chitietbaiviet").val("");
+                                        $("#hinhanh").val("");
+                                        $("#blah").attr("src", " ");
+                                    }
+                                },
+                                statusCode: {
+                                    500: function () {
+                                        // Only if your server returns a 403 status code can it come in this block. :-)
+                                        alert("Server is down. please try again later"),
+                                            window.location.replace("http://localhost:8081/500")
+                                    }
+                                }
+                            });
+                        }
+                    });
+                </script>
+                {{/if}}
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    hinhanh.onchange = evt => {
+        const [file] = hinhanh.files
+        if (file) {
+            blah.src = URL.createObjectURL(file)
+        }
+    }
+    $(document).ready(function () {
+        $("#idBaiViet").load("/admin/tintuc/all", "", function (response, status, request) {
+            this; // dom element
+            var jsonData = JSON.parse(response);
+            console.log(jsonData);
+            var item = ``;
+            for (let i = 0; i < jsonData.length; i++) {
+                console.log(jsonData[i]);
+                item += `<option value='` + jsonData[i].id + `'>` + jsonData[i].tenbaiviet + `</option>`;
+            }
+            $("#idBaiViet").html(item);
+            var pathName = window.location.pathname;
+            console.log(pathName);
+            if (pathName.indexOf("findone") != -1) {
+                $('#idBaiViet option[value= {{data.idBaiViet}}]').attr('selected', 'selected');
+            }
+        });
+    });
+</script>

@@ -1,0 +1,108 @@
+<style>
+    .error {
+        color: red;
+        border-color: red;
+    }
+</style>
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Tables</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+        <li class="breadcrumb-item active">TYPE</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-body">
+            DataTables is a third party plugin that is used to generate the demo table below. For more information about
+            DataTables, please visit the
+            <a target="_blank" href="https://datatables.net/">official DataTables documentation</a>
+            .
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Insert type
+        </div>
+        <div class="card-body">
+            <form id="demoForm">
+                <a href="/admin/loaitintuc/findall" class="btn btn-secondary mb-3 mr-3">Type list</a>
+                <div class="form-group">
+                    <label for="tenbaiviet">Type name:</label>
+                    {{#if data.loaibaiviet}}
+                    <input type="text" class="form-control mb-3" id="tenbaiviet" name="tenbaiviet" data-id={{data.id}}
+                        placeholder="Write your Type ...." value="{{data.loaibaiviet}}" />
+                    <button type="submit" class="btn btn-primary update" id="{{data.id}}">Submit</button>
+                    <script>
+                         $(".update").click(function (e) {
+                        e.preventDefault();
+                        if ($("#demoForm").valid()) {
+                            var url = "/admin/loaitintuc/update/" + $(this).attr("id");
+                            var tenbaiviet = $("#tenbaiviet").val();
+                            var dataJson = {
+                                'loaibaiviet':tenbaiviet,
+                            };
+                            console.log(dataJson);
+                            ajaxUpdate(url,dataJson,"PUT","Update success","http://localhost:8081/admin/loaitintuc/findall","Update Type "+tenbaiviet+" success");
+                        }
+                    });
+
+                    </script>
+                    {{else}}
+                    <input type="text" class="form-control mb-3" id="tenbaiviet" name="tenbaiviet"
+                        placeholder="Write your Type ...." />
+                    <button type="submit" class="btn btn-primary" id="create">Submit</button>
+                    <script>
+                        $("#create").click(function (e) {
+                            e.preventDefault();
+                            if ($("#demoForm").valid()) {
+                                console.log("Đã vào đc đây");
+                                var tenbaiviet = $("#tenbaiviet").val();
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/admin/loaitintuc/ins",
+                                    data: {
+                                        loaibaiviet: tenbaiviet
+                                    },
+                                    success: function (response) {
+                                        console.log(response);
+                                        if (response.loaibaiviet == tenbaiviet) {
+                                            alert("Add a type "+tenbaiviet+" success");
+                                            $("#tenbaiviet").val("");
+                                        }
+                                    },
+                                    statusCode: {
+                                        500: function () {
+                                            // Only if your server returns a 403 status code can it come in this block. :-)
+                                            alert("Server is down. please try again later"),
+                                                window.location.replace("http://localhost:8081/500")
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    </script>
+                    {{/if}}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $("#demoForm").validate({
+        onfocusout: true,
+        onkeyup: true,
+        onclick: true,
+        rules: {
+            "tenbaiviet": {
+                required: true,
+                minlength: 5
+            },
+        },
+        messages: {
+            "tenbaiviet": {
+                required: "Bắt buộc nhập tên bài viết",
+                minlength: "Hãy nhập ít nhất 5 ký tự"
+            }
+        }
+    });
+</script>

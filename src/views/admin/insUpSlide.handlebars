@@ -1,0 +1,117 @@
+<style>
+    .error {
+        color: red;
+        border-color: red;
+    }
+</style>
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Tables</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+        <li class="breadcrumb-item active">SLIDE</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-body">
+            DataTables is a third party plugin that is used to generate the demo table below. For more information about
+            DataTables, please visit the
+            <a target="_blank" href="https://datatables.net/">official DataTables documentation</a>
+            .
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Insert slide
+        </div>
+        <div class="card-body">
+            <a href="/admin/slide/findall" class="btn btn-secondary mb-3 mr-3">Slide list</a>
+            <form id="demoForm" runat="server">
+                <img src="" alt="">
+                <div class="form-group">
+                    {{#if data}}
+                    <img src="/src/views/img/{{data.img}}" alt="" srcset="" style="width: 352px;height: 179px;"><br>
+                    <label for="hinhanh" class="mb-3">choose new images:</label>
+                    <input type="file" class="form-control-file mb-3" id="hinhanh" required name="hinhanh">
+                    <img id="blah" src="#" alt="your image" style="width: 352px;height: 179px;" /><br>
+                    <button type="submit" class="btn btn-primary update" id="{{data.id}}">Submit</button>
+                    <script>
+                         $(".update").click(function (e) {
+                        e.preventDefault();
+                        if ($("#demoForm").valid()) {
+                            var url = "/admin/slide/update/" + $(this).attr("id");
+                            var formData = new FormData();
+                            var hinhanh = $("#hinhanh")[0].files[0];
+                            formData.append("hinhanh", hinhanh);
+                            ajaxFormDataUpdate(url, formData,"PUT","Update success","http://localhost:8081/admin/slide/findall","Update Slide success");
+                           
+                        }
+                    });
+                    </script>
+                    {{else}}
+                    <img id="blah" src="#" alt="your image" style="width: 352px;height: 179px;" /><br>
+                    <label for="hinhanh">Choose image:</label>
+                    <input type="file" class="form-control-file" id="hinhanh" name="hinhanh" required>
+                    <button type="submit" class="btn btn-primary" id="insert">Submit</button>
+                    <script>
+                        $("#insert").click(function (e) {
+                            e.preventDefault();
+                            if ($("#demoForm").valid()) {
+                                var formData = new FormData();
+                                var hinhanh = $("#hinhanh")[0].files[0];
+                                formData.append("hinhanh", hinhanh);
+                                console.log(formData);
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/admin/slide/ins",
+                                    data: formData,
+                                    processData: false,
+                                    contentType: false,
+                                    success: function (response) {
+                                        if (response.length >= 0) {
+                                            alert("Add a slide success");
+                                            $("#hinhanh").val("");
+                                            $("#blah").attr("src", " ");
+                                        }
+                                    },
+                                    statusCode: {
+                                        500: function () {
+                                            // Only if your server returns a 403 status code can it come in this block. :-)
+                                            alert("Server is down. please try again later"),
+                                                window.location.replace("http://localhost:8081/500")
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    </script>
+                    {{/if}}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    hinhanh.onchange = evt => {
+        const [file] = hinhanh.files
+        if (file) {
+            blah.src = URL.createObjectURL(file)
+        }
+    }
+    $(document).ready(function () {
+        $("#demoForm").validate({
+            onfocusout: false,
+            onkeyup: false,
+            onclick: false,
+            rules: {
+                "hinhanh": {
+                    required: true,
+                }
+            },
+            messages: {
+                "hinhanh": {
+                    required: "Bắt buộc chọn 1 hình ảnh"
+                }
+            }
+        });
+    });
+</script>

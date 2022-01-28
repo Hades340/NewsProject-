@@ -1,0 +1,131 @@
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Tables</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/admin/index">Dashboard</a></li>
+        <li class="breadcrumb-item active">Tables</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-body">
+            DataTables is a third party plugin that is used to generate the demo table below. For more information about
+            DataTables, please visit the
+            <a target="_blank" href="https://datatables.net/">official DataTables documentation</a>
+            .
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            DataTable Example
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Họ và tên</th>
+                        <th>Username</th>
+                        <th>Địa chỉ</th>
+                        <th>Số điện thoại</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Họ và tên</th>
+                        <th>Username</th>
+                        <th>Địa chỉ</th>
+                        <th>Số điện thoại</th>
+                        <th>Options</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {{#each data}}
+                    <tr>
+                        <td>{{this.ten}}</td>
+                        <td>{{this.username}}</td>
+                        <td>{{this.diachi}}</td>
+                        <td>{{this.sdt}}</td>
+                        <td> <button type="button" class="btn btn-primary showComments" id={{this.username}} data-toggle="modal"
+                                data-target="#exampleModal_delete">Show comment</button></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+     <!-- Modal -->
+    <div class="modal fade" id="exampleModal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModal_delete"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">All comments</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body">
+                       <table class="table" id="commnets">
+
+                       </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    $(document).ready(function () {
+         $(".showComments").click(function (e) { 
+            e.preventDefault();
+            $("#commnets").html("");
+            var userID = $(this).attr("id");
+            $.ajax({
+                type: "GET",
+                url: "/admin/comments/findbyuser/"+userID,
+                data: {},
+                success: function (response) {
+                    var htmlComments = `  
+                            <thead>
+                                <tr>
+                                    <th>Tên bài viết</th>
+                                    <th>Comments đã viết</th>
+                                </tr>
+                            </thead>
+                            <tbody>`;
+                    dataJson = JSON.parse(response);
+                    for(let i=0; i<dataJson.length ; i++){
+                        htmlComments += `
+                            <tr>
+                                <td scope="row">`+dataJson[i].tenbaiviet+`</td>
+                                <td>`+dataJson[i].binhLuan+`</td>
+                            </tr>
+                        ` 
+                    }
+                    htmlComments += `</tbody>`
+                      $("#commnets").html(htmlComments);
+                },statusCode: {
+                    404: function () {
+                        // Only if your server returns a 403 status code can it come in this block. :-)
+                        $("#commnets").html(`
+                            <div class="alert alert-danger" role="alert">
+                              This user isn't comments 
+                            </div>
+                            `);
+                    },
+                    500: function () {
+                        // Only if your server returns a 403 status code can it come in this block. :-)
+                        $("#commnets").html(`
+                        <div class="alert alert-danger" role="alert">
+                            Server down! Try again later
+                        </div>
+                        `);
+                    }
+                }
+            });
+        });
+    });
+   
+</script>

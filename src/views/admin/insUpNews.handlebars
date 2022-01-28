@@ -1,0 +1,254 @@
+<style>
+    .error {
+        color: red;
+        border-color: red;
+    }
+</style>
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Tables</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+        <li class="breadcrumb-item active">NEWS</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-body">
+            DataTables is a third party plugin that is used to generate the demo table below. For more information about
+            DataTables, please visit the
+            <a target="_blank" href="https://datatables.net/">official DataTables documentation</a>
+            .
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Insert news
+        </div>
+        <div class="card-body">
+            <a href="/admin/tintuc/findall" class="btn btn-secondary mb-3 mr-3">News list</a>
+            <form method="POST" action="#" id="demoForm" runat="server">
+                {{#if data}}
+                <div class="form-group" class="mb-3">
+                    <label for="idloai" class="mb-3">Type</label>
+                    <select class="form-control mb-3" id="idloai" name="idloai" required>
+                    </select>
+                </div>
+                <div class="form-group" class="mb-3">
+                    <label for="tenbaiviet" class="mb-3">Contents:</label>
+                    <input type="text" class="form-control mb-3" id="tenbaiviet" name="tenbaiviet"
+                        placeholder="Write your contents ...." value="{{data.tenbaiviet}}" required>
+                </div>
+                <div class="form-group" class="mb-3">
+                    <label for="mieuta" class="mb-3">Decription: </label>
+                    <textarea class="form-control mb-3" id="mieuta" name="mieuta" rows="3"
+                        required>{{data.mieuta}}</textarea>
+                </div>
+                <div class="form-group" class="mb-3">
+                    <img src="/src/views/img/{{data.hinhanh}}" alt="" srcset="" style="width: 352px;height: 179px;"
+                        id="oldHinhAnh"><br>
+                    <label for="hinhanh" class="mb-3">choose new images:</label>
+                    <input type="file" class="form-control-file mb-3" id="hinhanh" name="hinhanh">
+                    <img id="blah" src="#" alt="your image" style="width: 352px;height: 179px;" /><br>
+                </div>
+                <button type="submit" class="btn btn-primary update" id={{data.id}}>Submit</button>
+                <script>
+                    $("#demoForm").validate({
+                        onfocusout: false,
+                        onkeyup: false,
+                        onclick: false,
+                        rules: {
+                            "idloai": {
+                                required: true,
+                            },
+                            "tenbaiviet": {
+                                required: true,
+                                minlength: 5
+                            },
+                            "mieuta": {
+                                required: true,
+                                minlength: 15
+                            }
+                        },
+                        messages: {
+                            "idloai": {
+                                required: "Bắt buộc chọn loại tin tức"
+                            },
+                            "tenbaiviet": {
+                                required: "Bắt buộc nhập tên bài viết",
+                                minlength: "Tên bài viết tối thiểu 5 ký tự"
+                            },
+                            "mieuta": {
+                                required: "Bắt buộc nhập miêu tả bài viết",
+                                minlength: "Tên bài viết tối thiểu 15 ký tự"
+                            }
+                        }
+                    });
+                    $(".update").click(function (e) {
+                        e.preventDefault();
+                        if ($("#demoForm").valid()) {
+                            var url = "/admin/tintuc/update/" + $(this).attr("id");
+                            if ($("#hinhanh")[0].files[0] == undefined) {
+                                var hinhAnhCu = $("#oldHinhAnh").attr("src").split("/");
+                                var hinhanh = hinhAnhCu[hinhAnhCu.length - 1];
+                                var idloai = $("#idloai :selected").val();
+                                var tenbaiviet = $("#tenbaiviet").val();
+                                var mieuta = $("#mieuta").val();
+                                var dataJson = {
+                                    'hinhanh': hinhanh,
+                                    'idloai': idloai,
+                                    'tenbaiviet': tenbaiviet,
+                                    'mieuta': mieuta
+                                };
+                                console.log(dataJson);
+                                ajaxUpdate(url, dataJson, "PUT", "Update success", "http://localhost:8081/admin/tintuc/findall", "Update news " + tenbaiviet + " success");
+                            }
+                            else {
+                                var formData = new FormData();
+                                var hinhanh = $("#hinhanh")[0].files[0];
+                                var idloai = $("#idloai :selected").val();
+                                var tenbaiviet = $("#tenbaiviet").val();
+                                var mieuta = $("#mieuta").val();
+                                console.log(idloai + tenbaiviet);
+                                formData.append("idloai", idloai);
+                                formData.append("tenbaiviet", tenbaiviet);
+                                formData.append("mieuta", mieuta);
+                                formData.append("hinhanh", hinhanh);
+                                ajaxFormDataUpdate(url, formData, "PUT", "Update success", "http://localhost:8081/admin/tintuc/findall", "Update news " + tenbaiviet + " success");
+                            }
+                        }
+                    });
+                </script>
+                {{else}}
+                <div class="form-group" class="mb-3">
+                    <label for="idloai" class="mb-3">Type</label>
+                    <select class="form-control mb-3" id="idloai" name="idloai" required>
+                    </select>
+                </div>
+                <div class="form-group" class="mb-3">
+                    <label for="tenbaiviet" class="mb-3">Contents:</label>
+                    <input type="text" class="form-control mb-3" id="tenbaiviet" name="tenbaiviet"
+                        placeholder="Write your contents ...." required>
+                </div>
+                <div class="form-group" class="mb-3">
+                    <label for="mieuta" class="mb-3">Decription: </label>
+                    <textarea class="form-control mb-3" id="mieuta" name="mieuta" rows="3" required></textarea>
+                </div>
+                <div class="form-group" class="mb-3">
+                    <img id="blah" src="#" alt="your image" style="width: 352px;height: 179px;" /><br>
+                    <label for="hinhanh" class="mb-3">Choose images:</label>
+                    <input type="file" class="form-control-file mb-3" id="hinhanh" required name="hinhanh">
+                </div>
+                <button type="submit" class="btn btn-primary" id="insert">Submit</button>
+                <script>
+                    $("#demoForm").validate({
+                        onfocusout: false,
+                        onkeyup: false,
+                        onclick: false,
+                        rules: {
+                            "idloai": {
+                                required: true,
+                            },
+                            "tenbaiviet": {
+                                required: true,
+                                minlength: 5
+                            },
+                            "mieuta": {
+                                required: true,
+                                minlength: 15
+                            },
+                            "hinhanh": {
+                                required: true,
+                            }
+                        },
+                        messages: {
+                            "idloai": {
+                                required: "Bắt buộc chọn loại tin tức"
+                            },
+                            "tenbaiviet": {
+                                required: "Bắt buộc nhập tên bài viết",
+                                minlength: "Tên bài viết tối thiểu 5 ký tự"
+                            },
+                            "mieuta": {
+                                required: "Bắt buộc nhập miêu tả bài viết",
+                                minlength: "Tên bài viết tối thiểu 15 ký tự"
+                            },
+                            "hinhanh": {
+                                required: "Bắt buộc chọn 1 hình ảnh"
+                            }
+                        }
+                    });
+                    $("#insert").click(function (e) {
+                        e.preventDefault();
+                        if ($("#demoForm").valid()) {
+                            var formData = new FormData();
+                            var hinhanh = $("#hinhanh")[0].files[0];
+                            var idloai = $("#idloai :selected").val();
+                            var tenbaiviet = $("#tenbaiviet").val();
+                            var mieuta = $("#mieuta").val();
+                            console.log(idloai + tenbaiviet);
+                            formData.append("idloai", idloai);
+                            formData.append("tenbaiviet", tenbaiviet);
+                            formData.append("mieuta", mieuta);
+                            formData.append("hinhanh", hinhanh);
+                            console.log(formData);
+                            $.ajax({
+                                type: "POST",
+                                url: "/admin/tintuc/ins",
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function (response) {
+                                    if (response.tenbaiviet == tenbaiviet) {
+                                        alert("Add a news success");
+                                        $("#idloai :selected").val("");
+                                        $("#tenbaiviet").val("");
+                                        $("#mieuta").val("");
+                                        $("#hinhanh").val("");
+                                        $("#blah").attr("src", " ");
+                                    }
+                                },
+                                statusCode: {
+                                    404: function () {
+                                        // Only if your server returns a 403 status code can it come in this block. :-)
+                                        alert("Please upload a file!")
+                                    },
+                                    500: function () {
+                                        // Only if your server returns a 403 status code can it come in this block. :-)
+                                        alert("Server is down. please try again later"),
+                                            window.location.replace("http://localhost:8081/500")
+                                    }
+                                }
+                            });
+                        }
+                    });
+                </script>
+                {{/if}}
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    hinhanh.onchange = evt => {
+        const [file] = hinhanh.files
+        if (file) {
+            blah.src = URL.createObjectURL(file)
+        }
+    }
+    $(document).ready(function () {
+        $("#idloai").load("/admin/loaitintuc/all", "", function (response, status, request) {
+            this; // dom element
+            var jsonData = JSON.parse(response);
+            console.log(jsonData);
+            var item = ``;
+            for (let i = 0; i < jsonData.length; i++) {
+                console.log(jsonData[i]);
+                item += `<option value='` + jsonData[i].id + `'>` + jsonData[i].loaibaiviet + `</option>`;
+            }
+            $("#idloai").html(item);
+            var pathName = window.location.pathname;
+            console.log(pathName);
+            if (pathName.indexOf("findone") != -1) {
+                $('#idloai option[value= {{data.idloai}}]').attr('selected', 'selected');
+            }
+        });
+    });
+</script>

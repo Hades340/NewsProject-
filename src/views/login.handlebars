@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>TodayNews - The news what you need</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/src/views/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+      <link href="/src/views/public/css/sb-admin-2.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+ <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <!-- Custom styles for this template-->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+     <style>
+            .error {
+                color: red;
+                border-color: red;
+                font-size: 10px;
+            }
+        </style>
+</head>
+
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                    </div>
+                                    <div id="message"></div>
+                                    <form class="user" id="demoForm">
+                                        <div class="form-group">
+                                           
+                                                <input type="text" class="form-control form-control-user"
+                                                   aria-describedby="emailHelp" name="username"
+                                                    id="username" placeholder="Enter User name....">
+                                           
+                                        </div>
+                                        <div class="form-group">
+                                           
+                                                <input type="password" class="form-control form-control-user"
+                                                    name="password" id="password" id="exampleInputPassword"
+                                                    placeholder="Password...">
+                                            
+
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                <label class="custom-control-label" for="customCheck">Remember
+                                                    Me</label>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-user btn-block" id="login">
+                                            Login
+                                        </button>
+                                        <hr>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="/">Back to TodayNews</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" href="/register">Create an Account!</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <!-- Bootstrap core JavaScript-->
+    {{!-- <script src="/src/views/public/vendor/jquery/jquery.min.js"></script> --}}
+    <script src="/src/views/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/src/views/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/src/views/public/js/sb-admin-2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#demoForm").validate({
+                onfocusout: false,
+                onkeyup: false,
+                onclick: false,
+                rules: {
+                    "username": {
+                        required: true,
+                        maxlength: 15
+                    },
+                    "password": {
+                        required: true,
+                    }
+                },
+                messages: {
+                    "username": {
+                        required: "Bắt buộc nhập username",
+                        maxlength: "Hãy nhập tối đa 15 ký tự"
+                    },
+                    "password": {
+                        required: "Bắt buộc nhập password",
+                    },
+                }
+            });
+            $("#login").click(function (e) {
+                e.preventDefault();
+                if ($("#demoForm").valid()) {
+                    var username = $("#username").val();
+                    var password = $("#password").val();
+                    $.ajax({
+                        type: "POST",
+                        url: "/nguoidung/login",
+                        data: {
+                            username: username,
+                            password: password,
+                        },
+                        success: function (response) {
+                            console.log(response.message);
+                            if (response.message == 'Username or password is not correct') {
+                                $("#message").html(`<div class="alert alert-danger" role="alert">
+                               `+ response.message + `
+                                </div>`);
+                            }
+                            else {
+                                window.localStorage.setItem('userUser', response.data);
+                                window.location.replace("http://localhost:8081/")
+                            }
+                        },
+                        statusCode: {
+                            500: function () {
+                                // Only if your server returns a 403 status code can it come in this block. :-)
+                                alert("Server is down. please try again later")
+                            }
+                        }
+                    });
+                }
+
+            });
+        });
+    </script>
+</body>
+
+</html>

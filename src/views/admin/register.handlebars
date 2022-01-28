@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Register - SB Admin</title>
+    <link href="/src/views/public/css/stylesAdmin.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+      <style>
+        .error{
+            color: red;
+            border-color: red;
+        }
+    </style>
+</head>
+
+<body class="bg-primary">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-7">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header">
+                                    <h3 class="text-center font-weight-light my-4">Create Account</h3>
+                                </div>
+                                <div class="card-body">
+                                    <form class="needs-validation" id="demoForm">
+                                        <label for="username" >User name</label>
+                                        <input class="form-control" id="username" type="text" name="username"
+                                            placeholder="User name..." required/>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                 <label for="password" >Password</label>
+                                                <input class="form-control" id="password" type="password" name="password"
+                                                    placeholder="Create a password" required/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                 <label for="inputPasswordConfirm" >Confirm Password</label>
+                                                <input class="form-control" id="inputPasswordConfirm" name="inputPasswordConfirm"
+                                                    type="password" placeholder="Confirm password" required/>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 mb-0">
+                                            <div class="d-grid"><button type="submit"
+                                                    class="btn btn-primary btn-block" id="create">Create Account</button></div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="card-footer text-center py-3">
+                                     <div class="small"><a href="/admin/user/findall">Back to user list</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <div id="layoutAuthentication_footer">
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Your Website 2021</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="/src/views/public/js/scriptsadmin.js"></script>
+    <script>
+        $("#demoForm").validate({
+                onfocusout: false,
+                onkeyup: false,
+                onclick: false,
+                rules: {
+                    "username": {
+                        required: true,
+                        maxlength: 15
+                    },
+                    "password": {
+                        required: true,
+                        minlength: 8
+                    },
+                     "inputPasswordConfirm": {
+                        equalTo: "#password",
+				        minlength: 8
+                    }
+
+                },
+                messages: {
+                    "username": {
+                        required: "Bắt buộc nhập username",
+                        maxlength: "Hãy nhập tối đa 15 ký tự"
+                    },
+                    "username": {
+                        required: "Bắt buộc nhập password",
+                        minlength: "Hãy nhập ít nhất 8 ký tự"
+                    },
+                    "inputPasswordConfirm": {
+                        equalTo: "Mật khẩu xác nhận không trùng với mật khẩu",
+                        minlength: "Hãy nhập ít nhất 8 ký tự"
+                    },
+
+                }
+            });
+            $("#create").click(function (e) { 
+                e.preventDefault();
+                if($("#demoForm").valid()){
+                    var username = $("#username").val();
+                    var password = $("#password").val();
+                    $.ajax({
+                        type: "POST",
+                        url: "/admin/user/ins",
+                        data: {
+                            username:username,
+                            password:password
+                        },
+                        success: function (response) {
+                            if (response.username == username) {
+                                alert("Add customer success");
+                                $("#username").val("");
+                                $("#password").val("");
+                                $("#inputPasswordConfirm").val("");
+                                
+                            }
+                        }, 
+                        statusCode: {
+                            500: function () {
+                                // Only if your server returns a 403 status code can it come in this block. :-)
+                                alert("Server is down. please try again later"),
+                                window.location.replace("http://localhost:8081/500")
+                            }
+                        }
+                    });
+                }
+            });
+    </script>
+</body>
+
+</html>

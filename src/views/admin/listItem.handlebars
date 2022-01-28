@@ -1,0 +1,140 @@
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Tables</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/admin/index">Dashboard</a></li>
+        <li class="breadcrumb-item active">Tables</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-body">
+            DataTables is a third party plugin that is used to generate the demo table below. For more information about
+            DataTables, please visit the
+            <a target="_blank" href="https://datatables.net/">official DataTables documentation</a>
+            .
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            DataTable Example
+        </div>
+        <div class="card-body">
+            <button type="button" class="btn btn-secondary mb-3 mr-3" id="deleteSelect">Delete selected</button>
+            <a href="/admin/instype" class="btn btn-secondary mb-3 mr-3"> Insert type</a>
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>ID</th>
+                        <th>Loại bài viết</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Select</th>
+                        <th>ID</th>
+                        <th>Loại bài viết</th>
+                        <th>Options</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {{#each data}}
+                    <tr id="loaisp-{{this.id}}">
+                        <td>
+                            <input type="checkbox" value="{{this.id}}" class="flexCheckDefault">
+                        </td>
+                        <td>{{this.id}}</td>
+                        <td>{{this.loaibaiviet}}</td>
+                        <td><button type="button" class="btn btn-danger delete" id={{this.id}} data-toggle="modal"
+                                data-target="#exampleModal_delete">Delete</button>
+                            <a class="btn btn-success" href='/admin/loaitintuc/findone/{{this.id}}'>Update</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModal_delete"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">DELETE TYPE</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body">
+                        Are you sure to delete this item ?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="accept">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+      $(document).ready(function () {
+            var idDelete = '';
+            $(".delete").click(function (e) { 
+                e.preventDefault();
+                idDelete = $(this).attr("id");
+            });
+            $("#accept").click(function (e) { 
+                e.preventDefault();
+                console.log("giá trị ID là "+ idDelete);
+                $.ajax({
+                    type: "DELETE",
+                    url: "/admin/loaitintuc/delone/"+idDelete,
+                    success: function (response) {
+                        console.log(response);
+                        $("#loaisp-"+idDelete).remove();
+                    },
+                    statusCode:{
+                        404: function() {
+                            // Only if your server returns a 403 status code can it come in this block. :-)
+                                alert("Can't find this item ")
+                            },
+                            500: function() {
+                            // Only if your server returns a 403 status code can it come in this block. :-)
+                            alert("Server is down. please try again later")
+                            }
+                    }
+                });
+            });
+
+            $("#deleteSelect").click(function (e) { 
+                e.preventDefault();
+                var favorite = [];
+                $.each($(".flexCheckDefault:checked"), function(){
+                    favorite.push($(this).val());
+                });
+                if (favorite.length >= 1) {
+                    console.log("hello"+favorite); 
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/admin/loaiTinTuc/delmany",
+                        data: {
+                            idArray:favorite
+                        },
+                        success: function (response) {
+                            favorite.forEach(element => {
+                                $("#loaisp-"+element).remove();
+                            });
+                        },
+                        statusCode:{
+                            500: function() {
+                            // Only if your server returns a 403 status code can it come in this block. :-)
+                            alert("Server is down. please try again later")
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
