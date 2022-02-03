@@ -1,7 +1,6 @@
 const mysql = require("mysql");
 const db = require("./db.js");
 const BinhLuan = function(binhLuan){
-    this.id = tintuc.id;
     this.idBaiViet = binhLuan.idBaiViet;
     this.idNguoiDung = binhLuan.idNguoiDung;
     this.binhLuan = binhLuan.binhLuan;
@@ -15,7 +14,7 @@ BinhLuan.create = (newbinhluan , result)=>{
         }
         console.log("Create success ");
         result(null,{
-            id:res.insertID, ...newbinhluan
+            id:res.insertId, ...newbinhluan
         });
     });
 };

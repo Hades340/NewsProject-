@@ -24,6 +24,7 @@
      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
      <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+     <script src="/src/views/public/js/ajax.js"></script>
      <style>
             .error {
                 color: red;
@@ -163,8 +164,8 @@
                                 </div>`);
                             }
                             else {
-                                window.localStorage.setItem('userUser', response.data);
-                                window.location.replace("http://localhost:8081/")
+                                setCookie('userUser', response.data,2);
+                                window.location.replace("http://localhost:8081/");
                             }
                         },
                         statusCode: {

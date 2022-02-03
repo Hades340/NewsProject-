@@ -20,8 +20,7 @@ module.exports = app => {
 
   app.post("/admin/loaitintuc/ins", loaiTinTuc.create);
   app.get("/admin/loaitintuc/findall", loaiTinTuc.findAll);
-  app.get("/admin/loaitintuc/all", loaiTinTuc.findAllJson);
-  app.get("/admin/loaitintuc/:tintucID", tintuc.getTinTucByLoaiTin);
+  app.get("admin/loaitintuc/all", loaiTinTuc.findAllJson);
   app.get("/admin/loaitintuc/findone/:loaiTinTucID", loaiTinTuc.findOne);
   app.get("/admin/loaitintuc/find/:loaiTinTucID", loaiTinTuc.findOneJson);
   app.put("/admin/loaitintuc/update/:loaiTinTucID", loaiTinTuc.update);
@@ -66,9 +65,12 @@ module.exports = app => {
   app.post("/nguoidung/ins", nguoidung.create);
   app.post("/nguoidung/login", nguoidung.login);
   app.post("/nguoidung/logout", nguoidung.logout);
-  app.get("/loaitintuc/findall", loaiTinTuc.findAllJson);
+  app.get("/loaitt/findall", loaiTinTuc.findAllJson);
+  app.get("/loaitintuc/:tintucID", tintuc.getTinTucByLoaiTin);
   app.get("/tintuc/findall", tintuc.findAll);
-  app.get("/tintuc/findone/:tintucID", tintuc.findOne);
+  app.get("/tintuc/fournews", tintuc.findFour);
+  app.get("/slide/getthree", slide.getThreeSlide);
+  app.get("/tintuc/findone/:tintucID", tintuc.findOneJson);
 
   app.post("/binhluan/ins", binhluan.create);
   //app.get("/binhluan/findall", binhluan.findAll);
@@ -76,15 +78,16 @@ module.exports = app => {
   app.put("/binhluan/update/:binhLuanID", binhluan.update);
   app.delete("/binhluan/delone/:binhLuanID", binhluan.delete);
   app.get("/binhluan/findbyuser", binhluan.getBinhLuanByUserLogin);
+  app.get("/comments/findwithidbai/:baivietID", binhluan.getBinhLuanWithIdBaiViet);
 
   //API giao diện
   app.get('/', (req, res) => {
     res.render('home');
   });
-  app.get('/news', (req, res) => {
+  app.get('/news/:ID', (req, res) => {
     res.render('newsList');
   });
-  app.get('/newsdetails', (req, res) => {
+  app.get('/newsdetails/:id', (req, res) => {
     res.render('newsDetails');
   });
   app.get('/login', (req, res) => {

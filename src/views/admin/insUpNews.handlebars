@@ -43,6 +43,11 @@
                         required>{{data.mieuta}}</textarea>
                 </div>
                 <div class="form-group" class="mb-3">
+                    <label for="mieuta" class="mb-3">Details: </label>
+                    <textarea class="form-control mb-3" id="chitiettintuc" name="chitiettintuc" rows="3"
+                        required>{{data.chitiettintuc}}</textarea>
+                </div>
+                <div class="form-group" class="mb-3">
                     <img src="/src/views/img/{{data.hinhanh}}" alt="" srcset="" style="width: 352px;height: 179px;"
                         id="oldHinhAnh"><br>
                     <label for="hinhanh" class="mb-3">choose new images:</label>
@@ -66,6 +71,10 @@
                             "mieuta": {
                                 required: true,
                                 minlength: 15
+                            },
+                            "chitiettintuc": {
+                                required: true,
+                                minlength: 15
                             }
                         },
                         messages: {
@@ -78,7 +87,11 @@
                             },
                             "mieuta": {
                                 required: "Bắt buộc nhập miêu tả bài viết",
-                                minlength: "Tên bài viết tối thiểu 15 ký tự"
+                                minlength: "miêu tả tối thiểu 15 ký tự"
+                            },
+                            "chitiettintuc": {
+                                required: "Bắt buộc nhập chi tiết bài viết",
+                                minlength: "Chi tiết tối thiểu 15 ký tự"
                             }
                         }
                     });
@@ -92,11 +105,13 @@
                                 var idloai = $("#idloai :selected").val();
                                 var tenbaiviet = $("#tenbaiviet").val();
                                 var mieuta = $("#mieuta").val();
+                                var chitiettintuc = $("#chitiettintuc").val();
                                 var dataJson = {
                                     'hinhanh': hinhanh,
                                     'idloai': idloai,
                                     'tenbaiviet': tenbaiviet,
-                                    'mieuta': mieuta
+                                    'mieuta': mieuta,
+                                    'chitiettintuc': chitiettintuc
                                 };
                                 console.log(dataJson);
                                 ajaxUpdate(url, dataJson, "PUT", "Update success", "http://localhost:8081/admin/tintuc/findall", "Update news " + tenbaiviet + " success");
@@ -107,11 +122,13 @@
                                 var idloai = $("#idloai :selected").val();
                                 var tenbaiviet = $("#tenbaiviet").val();
                                 var mieuta = $("#mieuta").val();
+                                var chitiettintuc = $("#chitiettintuc").val();
                                 console.log(idloai + tenbaiviet);
                                 formData.append("idloai", idloai);
                                 formData.append("tenbaiviet", tenbaiviet);
                                 formData.append("mieuta", mieuta);
                                 formData.append("hinhanh", hinhanh);
+                                formData.append("chitiettintuc", chitiettintuc);
                                 ajaxFormDataUpdate(url, formData, "PUT", "Update success", "http://localhost:8081/admin/tintuc/findall", "Update news " + tenbaiviet + " success");
                             }
                         }
@@ -131,6 +148,11 @@
                 <div class="form-group" class="mb-3">
                     <label for="mieuta" class="mb-3">Decription: </label>
                     <textarea class="form-control mb-3" id="mieuta" name="mieuta" rows="3" required></textarea>
+                </div>
+                <div class="form-group" class="mb-3">
+                    <label for="mieuta" class="mb-3">Details: </label>
+                    <textarea class="form-control mb-3" id="chitiettintuc" name="chitiettintuc" rows="3"
+                        required></textarea>
                 </div>
                 <div class="form-group" class="mb-3">
                     <img id="blah" src="#" alt="your image" style="width: 352px;height: 179px;" /><br>
@@ -155,6 +177,10 @@
                                 required: true,
                                 minlength: 15
                             },
+                            "chitiettintuc": {
+                                required: true,
+                                minlength: 15
+                            },
                             "hinhanh": {
                                 required: true,
                             }
@@ -173,6 +199,10 @@
                             },
                             "hinhanh": {
                                 required: "Bắt buộc chọn 1 hình ảnh"
+                            },
+                            "chitiettintuc": {
+                                required: "Bắt buộc nhập chi tiết bài viết",
+                                minlength: "Chi tiết tối thiểu 15 ký tự"
                             }
                         }
                     });
@@ -227,12 +257,19 @@
     </div>
 </div>
 <script>
+
     hinhanh.onchange = evt => {
         const [file] = hinhanh.files
         if (file) {
             blah.src = URL.createObjectURL(file)
         }
     }
+    CKEDITOR.replace('mieuta', {
+        customConfig: '/src/views/public/ckeditor_4.16.2_standard/ckeditor/config.js'
+    });
+    CKEDITOR.replace('chitiettintuc', {
+        customConfig: '/src/views/public/ckeditor_4.16.2_standard/ckeditor/config.js'
+    });
     $(document).ready(function () {
         $("#idloai").load("/admin/loaitintuc/all", "", function (response, status, request) {
             this; // dom element

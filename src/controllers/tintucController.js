@@ -12,7 +12,8 @@ exports.create = (req, res) => {
       idloai: req.body.idloai,
       tenbaiviet: req.body.tenbaiviet,
       hinhanh: req.file.filename,
-      mieuta: req.body.mieuta
+      mieuta: req.body.mieuta,
+      chitiettintuc:req.body.chitiettintuc
     });
     tintucModel.create(tintuc, (err, data) => {
       if (err) {
@@ -40,6 +41,18 @@ exports.findAll = function (req, res) {
     });
   });
 };
+
+exports.findFour = function (req, res) {
+  tintucModel.getFourTinTuc((err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving..."
+      });
+    else res.send(data);
+  });
+};
+
 
 exports.findAllJson = function (req, res) {
   tintucModel.getAll((err, data) => {
@@ -77,11 +90,11 @@ exports.findOneJson = (req, res) => {
     tintucModel.findById(req.params.tintucID, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
-          res.status(404).send({
+          res.status(200).send({
             message: `Not found with id ${req.params.tintucID}.`
           });
         } else {
-          res.status(500).send({
+          res.status(200).send({
             message: "Error retrieving with id " + req.params.tintucID
           });
         }
@@ -104,7 +117,8 @@ exports.update = (req, res) => {
       idloai: req.body.idloai,
       tenbaiviet: req.body.tenbaiviet,
       hinhanh: hinhanh,
-      mieuta: req.body.mieuta
+      mieuta: req.body.mieuta,
+      chitiettintuc:req.body.chitiettintuc
     });
     tintucModel.updateTinTuc(
       req.params.tintucID,
@@ -184,11 +198,11 @@ exports.getTinTucByLoaiTin =  (req, res) => {
     tintucModel.getTinTucByLoaiTin(req.params.tintucID, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
-          res.status(404).send({
+          res.status(200).send({
             message: `Not found with id ${req.params.tintucID}.`
           });
         } else {
-          res.status(500).send({
+          res.status(200).send({
             message: "Error retrieving with id " + req.params.tintucID
           });
         }

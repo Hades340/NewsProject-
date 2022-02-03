@@ -81,4 +81,19 @@ ChiTietTinTuc.removeCTTinTuc = (id,result) => {
         return; 
     });
 };
+ChiTietTinTuc.getChiTietByIdBaiViet = (idChiTiet , result)=>{
+    db.query(`SELECT * FROM chitiettintuc where id = ${idChiTiet} and deleteitem = 1`,(err,res)=>{
+        if(err){
+            console.log("Error",err);
+            result(err,null);
+            return;
+        }
+        if(res.length){
+            console.log("find success ",res[0]);
+            result(null,res[0]); 
+            return; 
+        }
+        result({kind:"not found"},null);
+    });
+};
 module.exports = ChiTietTinTuc;

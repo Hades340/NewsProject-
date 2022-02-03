@@ -1,11 +1,130 @@
-    <!-- About section one-->
-    <section class="py-5 bg-light" id="scroll-target">
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+<!-- About section one-->
+<div id="newsListItem">
+    {{!-- <section class="py-5 bg-light" id="scroll-target">
         <div class="container px-5 my-5">
             <div class="row gx-5 align-items-center">
                 <div class="col-lg-6"><img class="img-fluid rounded mb-5 mb-lg-0"
                         src="https://dummyimage.com/500x300/343a40/6c757d" alt="..." /></div>
                 <div class="col-lg-6">
                     <h2 class="fw-bolder">Our founding</h2>
+                    <p class="lead fw-normal text-muted mb-0">Lorem ipsum dolor sit amet consectetur adipisicing
+                        elit. Iusto est, ut esse a labore aliquam beatae expedita. Blanditiis impedit numquam libero
+                        molestiae et fugit cupiditate, quibusdam expedita, maiores eaque quisquam.</p>
+                    <a href="" class="btn btn-primary mt-4">Read more</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Team members section-->
+    <section class="py-5 bg-light">
+        <div class="container px-5 my-5">
+            <div class="text-center">
+                <h2 class="fw-bolder">Our team</h2>
+                <p class="lead fw-normal text-muted mb-5">Dedicated to quality and your success</p>
+            </div>
+            <div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
+                <div class="col mb-5 mb-5 mb-xl-0">
+                    <img class="card-img-top" src="https://dummyimage.com/600x350/6c757d/343a40" alt="..."
+                        style="width:600px,height:350px" />
+                    <div class="card-body p-4">
+                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
+                        <a class="text-decoration-none link-dark stretched-link" href="#!">
+                            <h5 class="card-title mb-3">The last blog post title is a little bit longer than the
+                                others</h5>
+                        </a>
+                        <p class="card-text mb-0">Some more quick example text to build on the card title and make
+                            up the bulk of the card's content.</p>
+                    </div>
+                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                        <div class="d-flex align-items-end justify-content-between">
+                            <a class="stretched-link text-decoration-none" href="#!">
+                                Read more
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-5 mb-5 mb-xl-0">
+                    <img class="card-img-top" src="https://dummyimage.com/600x350/6c757d/343a40" alt="..." />
+                    <div class="card-body p-4">
+                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
+                        <a class="text-decoration-none link-dark stretched-link" href="#!">
+                            <h5 class="card-title mb-3">The last blog post title is a little bit longer than the
+                                others</h5>
+                        </a>
+                        <p class="card-text mb-0">Some more quick example text to build on the card title and make
+                            up the bulk of the card's content.</p>
+                    </div>
+                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                        <div class="d-flex align-items-end justify-content-between">
+                            <a class="stretched-link text-decoration-none" href="#!">
+                                Read more
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-5 mb-5 mb-sm-0">
+                    <img class="card-img-top" src="https://dummyimage.com/600x350/6c757d/343a40" alt="..." />
+                    <div class="card-body p-4">
+                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
+                        <a class="text-decoration-none link-dark stretched-link" href="#!">
+                            <h5 class="card-title mb-3">The last blog post title is a little bit longer than the
+                                others</h5>
+                        </a>
+                        <p class="card-text mb-0">Some more quick example text to build on the card title and make
+                            up the bulk of the card's content.</p>
+                    </div>
+                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                        <div class="d-flex align-items-end justify-content-between">
+                            <a class="stretched-link text-decoration-none" href="#!">
+                                Read more
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-5">
+                    <img class="card-img-top" src="https://dummyimage.com/600x350/6c757d/343a40" alt="..." />
+                    <div class="card-body p-4">
+                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
+                        <a class="text-decoration-none link-dark stretched-link" href="#!">
+                            <h5 class="card-title mb-3">The last blog post title is a little bit longer than the
+                                others</h5>
+                        </a>
+                        <p class="card-text mb-0">Some more quick example text to build on the card title and make
+                            up the bulk of the card's content.</p>
+                    </div>
+                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                        <div class="d-flex align-items-end justify-content-between">
+                            <a class="stretched-link text-decoration-none" href="#!">
+                                Read more
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- About section two-->
+    <section class="py-5">
+        <div class="container px-5 my-5">
+            <div class="row gx-5 align-items-center">
+                <div class="col-lg-6 order-first order-lg-last"><img class="img-fluid rounded mb-5 mb-lg-0"
+                        src="https://dummyimage.com/500x300/343a40/6c757d" alt="..." /></div>
+                <div class="col-lg-6">
+                    <h2 class="fw-bolder">Growth &amp; beyond</h2>
                     <p class="lead fw-normal text-muted mb-0">Lorem ipsum dolor sit amet consectetur adipisicing
                         elit. Iusto est, ut esse a labore aliquam beatae expedita. Blanditiis impedit numquam libero
                         molestiae et fugit cupiditate, quibusdam expedita, maiores eaque quisquam.</p>
@@ -104,123 +223,163 @@
                 </div>
             </div>
         </div>
-    </section>
-    <!-- About section two-->
-    <section class="py-5">
-        <div class="container px-5 my-5">
-            <div class="row gx-5 align-items-center">
-                <div class="col-lg-6 order-first order-lg-last"><img class="img-fluid rounded mb-5 mb-lg-0"
-                        src="https://dummyimage.com/500x300/343a40/6c757d" alt="..." /></div>
-                <div class="col-lg-6">
-                    <h2 class="fw-bolder">Growth &amp; beyond</h2>
-                    <p class="lead fw-normal text-muted mb-0">Lorem ipsum dolor sit amet consectetur adipisicing
-                        elit. Iusto est, ut esse a labore aliquam beatae expedita. Blanditiis impedit numquam libero
-                        molestiae et fugit cupiditate, quibusdam expedita, maiores eaque quisquam.</p>
-                    <a href="" class="btn btn-primary mt-4">Read more</a>
-                </div>
-            </div>
-        </div>
-    </section>
-     <!-- Team members section-->
-     <section class="py-5 bg-light">
-        <div class="container px-5 my-5">
-            <div class="text-center">
-                <h2 class="fw-bolder">Our team</h2>
-                <p class="lead fw-normal text-muted mb-5">Dedicated to quality and your success</p>
-            </div>
-            <div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
-                <div class="col mb-5 mb-5 mb-xl-0">
-                    <img class="card-img-top" src="https://dummyimage.com/600x350/6c757d/343a40" alt="..." />
-                    <div class="card-body p-4">
-                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
-                        <a class="text-decoration-none link-dark stretched-link" href="#!">
-                            <h5 class="card-title mb-3">The last blog post title is a little bit longer than the
-                                others</h5>
-                        </a>
-                        <p class="card-text mb-0">Some more quick example text to build on the card title and make
-                            up the bulk of the card's content.</p>
-                    </div>
-                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
-                        <div class="d-flex align-items-end justify-content-between">
-                            <a class="stretched-link text-decoration-none" href="#!">
-                                Read more
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5 mb-5 mb-xl-0">
-                    <img class="card-img-top" src="https://dummyimage.com/600x350/6c757d/343a40" alt="..." />
-                    <div class="card-body p-4">
-                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
-                        <a class="text-decoration-none link-dark stretched-link" href="#!">
-                            <h5 class="card-title mb-3">The last blog post title is a little bit longer than the
-                                others</h5>
-                        </a>
-                        <p class="card-text mb-0">Some more quick example text to build on the card title and make
-                            up the bulk of the card's content.</p>
-                    </div>
-                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
-                        <div class="d-flex align-items-end justify-content-between">
-                            <a class="stretched-link text-decoration-none" href="#!">
-                                Read more
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5 mb-5 mb-sm-0">
-                    <img class="card-img-top" src="https://dummyimage.com/600x350/6c757d/343a40" alt="..." />
-                    <div class="card-body p-4">
-                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
-                        <a class="text-decoration-none link-dark stretched-link" href="#!">
-                            <h5 class="card-title mb-3">The last blog post title is a little bit longer than the
-                                others</h5>
-                        </a>
-                        <p class="card-text mb-0">Some more quick example text to build on the card title and make
-                            up the bulk of the card's content.</p>
-                    </div>
-                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
-                        <div class="d-flex align-items-end justify-content-between">
-                            <a class="stretched-link text-decoration-none" href="#!">
-                                Read more
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <img class="card-img-top" src="https://dummyimage.com/600x350/6c757d/343a40" alt="..." />
-                    <div class="card-body p-4">
-                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
-                        <a class="text-decoration-none link-dark stretched-link" href="#!">
-                            <h5 class="card-title mb-3">The last blog post title is a little bit longer than the
-                                others</h5>
-                        </a>
-                        <p class="card-text mb-0">Some more quick example text to build on the card title and make
-                            up the bulk of the card's content.</p>
-                    </div>
-                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
-                        <div class="d-flex align-items-end justify-content-between">
-                            <a class="stretched-link text-decoration-none" href="#!">
-                                Read more
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </section> --}}
+</div>
 <script>
-    function renderHTML() {
-        var html = `
-    `;
-        return html;
-    }
-    window.addEventListener('load', (event) => {
-        var main = document.getElementById("main");
-       // main.innerHTML = "";
-       // main.innerHTML = renderHTML();
+    $(document).ready(function () {
+        var pathName = window.location.pathname;
+        var idLoai = pathName.split("/");
+        console.log("Type id " + idLoai);
+        var id = idLoai[idLoai.length - 1];
+        console.log("id " + id);
+        $("#newsListItem").load("/loaitintuc/" + id, "", function (response, status, request) {
+            this; // dom element
+            var dataJson = JSON.parse(response);
+            if (dataJson.message != undefined) {
+                if (dataJson.message == "Not found with id " + id + ".") {
+                    item += `Không tìm thấy bài viết`;
+                }
+                else {
+                    item += `Lỗi server không tìm thấy bài viết`;
+                }
+            }
+            else {
+                // change JSON to array
+                var array = [];
+                for (var k in dataJson) {
+                    if (!dataJson.hasOwnProperty(k)) {
+                        continue;
+                    }
+                    array.push(dataJson[k])
+                }
+                /* cut array to small array like [1,2,3,4] = [[1,2],[3,4]] 
+                    chunk_size is a number of element in one array small, in this code we set chuck_size is 5*/
+                function chunkArray(myArray, chunk_size) {
+                    var index = 0;
+                    var arrayLength = myArray.length;
+                    var tempArray = [];
+
+                    for (index = 0; index < arrayLength; index += chunk_size) {
+                        myChunk = myArray.slice(index, index + chunk_size);
+                        // Do something if you want with the group
+                        tempArray.push(myChunk);
+                    }
+
+                    return tempArray;
+                };
+                var arraySmall = chunkArray(array, 5);
+                console.log(arraySmall);
+                var item = ``;
+                for (let index = 0; index < arraySmall.length; index++) {
+                    if (index % 2 == 0) {
+                        item += `  
+                   <section class="py-5 bg-light" id="scroll-target">
+                        <div class="container px-5 my-5">
+                            <div class="row gx-5 align-items-center">
+                                <div class="col-lg-6"><img class="img-fluid rounded mb-5 mb-lg-0"
+                                        src="/src/views/img/`+ arraySmall[index][0].hinhanh + `" alt="..." /></div>
+                                <div class="col-lg-6">
+                                    <h2 class="fw-bolder">`+ arraySmall[index][0].tenbaiviet + `</h2>
+                                    <p class="lead fw-normal text-muted mb-0">`+ arraySmall[index][0].mieuta + `</p>
+                                    <a href="/newsdetails/`+ arraySmall[index][0].id + `" class="btn btn-primary mt-4">Read more</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="py-5 bg-light">
+                    <div class="container px-5 my-5">
+                        <div class="text-center">
+                            <h2 class="fw-bolder">Our team</h2>
+                            <p class="lead fw-normal text-muted mb-5">Dedicated to quality and your success</p>
+                        </div>
+                        <div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
+                    `
+                        for (let i = 1; i < arraySmall[index].length; i++) {
+                            item += `
+                        <div class="col mb-5 mb-5 mb-xl-0">
+                            <img class="card-img-top" src="/src/views/img/`+ arraySmall[index][i].hinhanh + `" alt="..." style="width:300px;height:auto"/>
+                            <div class="card-body p-4">
+                                <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
+                                <a class="text-decoration-none link-dark stretched-link" href="/newsdetails/`+ arraySmall[index][i].id + `">
+                                    <h5 class="card-title mb-3">`+ arraySmall[index][i].tenbaiviet + `</h5>
+                                </a>
+                                <p class="card-text mb-0">`+ arraySmall[index][i].mieuta + `</p>
+                            </div>
+                            <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                                <div class="d-flex align-items-end justify-content-between">
+                                    <a class="stretched-link text-decoration-none" href="/newsdetails/`+ arraySmall[index][i].id + `">
+                                        Read more
+                                        <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        `
+
+                        }
+                        item += `
+                            </div>
+                        </div>
+                    </section>`;
+                    }
+                    else {
+                        item += `
+                     <section class="py-5">
+                        <div class="container px-5 my-5">
+                            <div class="row gx-5 align-items-center">
+                                <div class="col-lg-6 order-first order-lg-last"><img class="img-fluid rounded mb-5 mb-lg-0"
+                                        src="/src/views/img/`+ arraySmall[index][0].hinhanh + `" alt="..." /></div>
+                                <div class="col-lg-6">
+                                    <h2 class="fw-bolder">`+ arraySmall[index][0].tenbaiviet + `</h2>
+                                    <p class="lead fw-normal text-muted mb-0">`+ arraySmall[index][0].mieuta + `</p>
+                                    <a href="/newsdetails/`+ arraySmall[index][0].id + `" class="btn btn-primary mt-4">Read more</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="py-5 bg-light">
+                        <div class="container px-5 my-5">
+                            <div class="text-center">
+                                <h2 class="fw-bolder">Our team</h2>
+                                <p class="lead fw-normal text-muted mb-5">Dedicated to quality and your success</p>
+                            </div>
+                            <div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
+                   `;
+                        for (let i = 1; i < arraySmall[index].length; i++) {
+                            item += `
+                        <div class="col mb-5 mb-5 mb-xl-0">
+                            <img class="card-img-top" src="/src/views/img/`+ arraySmall[index][i].hinhanh + `" alt="..." style="width:300px;height:auto"/>
+                            <div class="card-body p-4">
+                                <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
+                                <a class="text-decoration-none link-dark stretched-link" href="/newsdetails/`+ arraySmall[index][i].id + `">
+                                    <h5 class="card-title mb-3">`+ arraySmall[index][i].tenbaiviet + `</h5>
+                                </a>
+                                <p class="card-text mb-0">`+ arraySmall[index][i].mieuta + `</p>
+                            </div>
+                            <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                                <div class="d-flex align-items-end justify-content-between">
+                                    <a class="stretched-link text-decoration-none" href="/newsdetails/`+ arraySmall[index][i].id + `">
+                                        Read more
+                                        <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        `
+
+                        }
+                        item += `
+                            </div>
+                        </div>
+                    </section>`;
+                    }
+
+                }
+
+            }
+
+            $(this).html(item);
+            console.log(item);
+        });
     });
 </script>

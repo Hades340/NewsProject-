@@ -45,7 +45,7 @@ function checkBinhLuan(req, res) {
         })
     }
     else {
-        let messsage = checkAllBody(req, [req.body.idBaiViet, req.headers.cookie.username, req.body.binhLuan]);
+        let messsage = checkAllBody(req, [req.body.idBaiViet, req.body.binhLuan]);
         console.log(messsage);
         if (isNullEmpty(messsage)) {
             count++;

@@ -1,90 +1,259 @@
+<style>
+    .css {
+        color: black;
+    }
+
+    .css:hover {
+        color: black;
+    }
+    }
+</style>
 <section class="py-5">
-                <div class="container px-5 my-5">
-                    <div class="row gx-5">
-                        <div class="col-lg-12">
-                            <!-- Post content-->
-                            <article>
-                                <!-- Post header-->
-                                <header class="mb-4">
-                                    <!-- Post title-->
-                                    <h1 class="fw-bolder mb-1">Welcome to Blog Post!</h1>
-                                    <!-- Post meta content-->
-                                    <div class="text-muted fst-italic mb-2">January 1, 2021</div>
-                                    <!-- Post categories-->
-                                    <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
-                                    <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
-                                </header>
-                                <!-- Preview image figure-->
-                                <figure class="mb-4" style="text-align: center;"><img class="img-fluid rounded" src="https://dummyimage.com/1000x400/ced4da/6c757d.jpg" alt="..." /></figure>
-                                <!-- Post content-->
-                                <section class="mb-5">
-                                    <p class="fs-5 mb-4">Science is an enterprise that should be cherished as an activity of the free human mind. Because it transforms who we are, how we live, and it gives us an understanding of our place in the universe.</p>
-                                    <p class="fs-5 mb-4">The universe is large and old, and the ingredients for life as we know it are everywhere, so there's no reason to think that Earth would be unique in that regard. Whether of not the life became intelligent is a different question, and we'll see if we find that.</p>
-                                    <p class="fs-5 mb-4">If you get asteroids about a kilometer in size, those are large enough and carry enough energy into our system to disrupt transportation, communication, the food chains, and that can be a really bad day on Earth.</p>
-                                    <h2 class="fw-bolder mb-4 mt-5">I have odd cosmic thoughts every day</h2>
-                                    <p class="fs-5 mb-4">For me, the most fascinating interface is Twitter. I have odd cosmic thoughts every day and I realized I could hold them to myself or share them with people who might be interested.</p>
-                                    <p class="fs-5 mb-4">Venus has a runaway greenhouse effect. I kind of want to know what happened there because we're twirling knobs here on Earth without knowing the consequences of it. Mars once had running water. It's bone dry today. Something bad happened there as well.</p>
-                                </section>
-                            </article>
-                            <!-- Comments section-->
-                            <section>
-                                <div class="card bg-light">
-                                    <div class="card-body">
-                                        <!-- Comment form-->
-                                        <form class="mb-4">
-                                            <textarea class="form-control" rows="3" placeholder="Join the discussion and leave a comment!"></textarea>
-                                            <button class="btn btn-outline-secondary mt-4">Send</button>
-                                        </form>
-                                        <br>
-                                        <!-- Comment with nested comments-->
-                                        <div class="d-flex mb-4">
-                                            <!-- Parent comment-->
-                                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                            <div class="ms-3">
-                                                <div class="fw-bold">Commenter Name</div>
-                                                If you're going to lead a space frontier, it has to be government; it'll never be private enterprise. Because the space frontier is dangerous, and it's expensive, and it has unquantified risks.
-                                                <!-- Child comment 1-->
-                                                <div class="d-flex mt-4">
-                                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                                    <div class="ms-3">
-                                                        <div class="fw-bold">Commenter Name</div>
-                                                        And under those conditions, you cannot establish a capital-market evaluation of that enterprise. You can't get investors.
-                                                    </div>
-                                                </div>
-                                                <!-- Child comment 2-->
-                                                <div class="d-flex mt-4">
-                                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                                    <div class="ms-3">
-                                                        <div class="fw-bold">Commenter Name</div>
-                                                        When you put money directly to a problem, it makes a good headline.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Single comment-->
-                                        <div class="d-flex">
-                                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                            <div class="ms-3">
-                                                <div class="fw-bold">Commenter Name</div>
-                                                When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.
+    <div class="container px-5 my-5">
+        <div class="row gx-5">
+            <div class="col-lg-12">
+                <!-- Post content-->
+                <article id="newsDetails">
+                </article>
+                <!-- Comments section-->
+                <section>
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <!-- Comment form-->
+                            <form class="mb-4">
+                                <textarea class="form-control commentsChange" rows="3"
+                                    placeholder="Join the discussion and leave a comment!" id="commentSend"></textarea>
+                                <button class="btn btn-outline-secondary mt-4" id="send">Send</button>
+                            </form>
+                            <br>
+                            <div id="comments">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        var pathName = window.location.pathname;
+        var idLoai = pathName.split("/");
+        console.log("Type id " + idLoai);
+        var id = idLoai[idLoai.length - 1];
+        console.log("id " + id);
+        $("#newsDetails").load("/tintuc/findone/" + id, "", function (response, status, request) {
+            this; // dom element
+            var dataJson = JSON.parse(response);
+            var item = ``;
+            if (dataJson.message != undefined) {
+                if (dataJson.message == "Not found with id " + id + ".") {
+                    item += `Không tìm thấy bài viết`;
+                }
+                else {
+                    item += `Lỗi server không tìm thấy bài viết`;
+                }
+            }
+            else {
+                console.log(dataJson);
+                var item = `
+                 <!-- Post header-->
+                 <header class="mb-4">
+                     <!-- Post title-->
+                     <h1 class="fw-bolder mb-1">`+ dataJson.tenbaiviet + `</h1>
+                     <!-- Post meta content-->
+                     <div class="text-muted fst-italic mb-2">`+ dataJson.DateTime + `</div>
+                     <!-- Post categories-->
+                     <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
+                     <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+                 </header>
+                 <!-- Preview image figure-->
+                 <figure class="mb-4" style="text-align: center;">
+                     <img class="img-fluid rounded"
+                         src="/src/views/img/`+ dataJson.hinhanh + `" alt="..." style="width:1000px;height:auto"/>
+                 </figure>
+                 <!-- Post content-->
+                 <section class="mb-5">
+                    `+ dataJson.chitiettintuc + `
+                 </section>
+             `;
+            }
+
+            $(this).html("");
+            $(this).html(item);
+        });
+        $("#comments").load("/comments/findwithidbai/" + id, "", function (response, status, request) {
+            this; // dom element
+            var dataJson = JSON.parse(response);
+            var item = ``;
+            if (dataJson.message != undefined) {
+                if (dataJson.message == "Not found with id " + id + ".") {
+                    item += `Bài viết chưa có comment`;
+                }
+                else {
+                    item += `Không thể load được bình luận`;
+                }
+            }
+            else {
+                if (dataJson.lenght != 0) {
+                    for (let i = 0; i < dataJson.length; i++) {
+                        item += `
+                    <div class="d-flex mb-3"  id="all-`+ dataJson[i].id + `">
+                        <div class="flex-shrink-0"><img class="rounded-circle"
+                                                src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                        <div class="ms-3">
+                            <div class="fw-bold idnguoidung" >`+ dataJson[i].idNguoiDung + `</div>
+                            <textarea class="form-control commentsChange"  id="comments-`+ dataJson[i].id + `" rows="2" cols="100" style="width: 165%;" disabled= 'true'>` + dataJson[i].binhLuan + `</textarea>
+                            <div class="d-flex" id=`+ dataJson[i].id + `>
+                                <a href="#" class="mr-auto p-2 css changes" onclick="changeComment('`+ dataJson[i].id + `','` + dataJson[i].idNguoiDung + `',event)">Chỉnh sửa</a> 
+                                <a href="#"class="p-2 css delete" id="`+ dataJson[i].id + `-` + dataJson[i].idNguoiDung + `" onclick="deleteComment('` + dataJson[i].id + `','` + dataJson[i].idNguoiDung + `',event)">Xóa</a>
+                            </div>
+                        </div>
+                    </div>
+                   `;
+
+                    }
+
+                }
+            }
+            $(this).html("");
+            $(this).html(item);
+        });
+        $("#send").click(function (e) {
+            e.preventDefault();
+            var item = $("#commentSend").val();
+            var cookie = getCookie("userUser");
+            if (item != " " && item != "" && item != null) {
+                if (cookie != "") {
+                    console.log("id " + id + " cookie" + cookie + " item " + item);
+                    $.ajax({
+                        type: "POST",
+                        url: "/binhluan/ins",
+                        data: {
+                            idBaiViet: id,
+                            binhLuan: item
+                        },
+                        success: function (response) {
+                            console.log(response);
+                            $("#commentSend").val("");
+                            var itemComment = $("#comments").html();
+                            $("#comments").html("");
+                            $("#comments").html(itemComment + `
+                                <!-- Single comment-->
+                                    <div class="d-flex mb-3 " id="all-`+ response.id + `">
+                                        <div class="flex-shrink-0"><img class="rounded-circle"
+                                                src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                    
+                                         <div class="ms-3">
+                                            <div class="fw-bold">`+ response.idNguoiDung + `</div>
+                                             <textarea class="form-control" id="comments-`+ response.id + `" rows="2" cols="100" style="width: 165%;" disabled= 'true'> ` + response.binhLuan + `</textarea>
+                                             <div class="d-flex" id=`+ response.id + `>
+                                                 <a href="#" class="mr-auto p-2 css changes" onclick="changeComment('`+ response.id + `','` + response.idNguoiDung + `',event)">Chỉnh sửa</a>
+                                                <a href="#"class="p-2 css delete" id="`+ response.id + `-` + response.idNguoiDung + `">Xóa</a>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </section>
-                        </div>
-                    </div>
-                </div>
-            </section>
-<script>
-    function renderHTML() {
-        var html = `
-        `;
-        return html;
+                            `);
+                        }
+                    });
+                }
+                else {
+                    alert("Bạn chưa đăng nhập");
+                }
+            }
+        });
+    });
+    function changeComment(id_baiviet, nguoidung, event) {
+        event.preventDefault();
+        if (nguoidung.toLowerCase() != getCookie("userUser").toLowerCase()) {
+            alert("Không thể chỉnh sửa bình luận này");
+        }
+        else {
+            console.log($("#comments-" + id_baiviet).attr("disabled"));
+            var disable = $("#comments-" + id_baiviet).attr("disabled");
+            if (disable == "disabled") {
+                $("#comments-" + id_baiviet).attr("disabled", false);
+                var htmlOld = $("#" + id_baiviet).html();
+                $("#" + id_baiviet).html("");
+                $("#" + id_baiviet).html(htmlOld + `
+                        <a href="#" class="p-2 css update" id="update-`+ id_baiviet + `-` + nguoidung + `" onclick="updateComment('` + id_baiviet + `','` + nguoidung + `',event)">Cập nhật</a>
+                    `);
+            }
+            else {
+                $("#comments-" + id_baiviet).attr("disabled", true);
+                $("#update-" + id_baiviet + "-" + nguoidung).remove();
+            }
+        }
     }
-    window.addEventListener('load', (event) => {
-        var main = document.getElementById("main");
-        //main.innerHTML = "";
-        //main.innerHTML = renderHTML();
-    }); --}}
+    function updateComment(id_baiviet, nguoidung, event) {
+        event.preventDefault();
+        nguoidung = getCookie("userUser");
+        var pathName = window.location.pathname;
+        var idLoai = pathName.split("/");
+        console.log("Type id " + idLoai);
+        var id = idLoai[idLoai.length - 1];
+        console.log("Sự kiện " + id + " id bài viết " + id_baiviet)
+        var newComment = $("#comments-" + id_baiviet).val();
+        if (newComment != "" && newComment != " ") {
+            $.ajax({
+                type: "PUT",
+                url: "/binhluan/update/" + id_baiviet,
+                data: {
+                    idBaiViet: id,
+                    idNguoiDung: nguoidung,
+                    binhLuan: newComment
+                },
+                success: function (response) {
+                    $("#comments-" + id_baiviet).val(newComment);
+                    $("#comments-" + id_baiviet).attr("disabled", true);
+                    $("#update-" + id_baiviet + "-" + nguoidung).remove();
+                },
+                statusCode: {
+                    500: function () {
+                        alert("Server is down. please try again later")
+                    },
+                    404: function () {
+                        alert("Can't find this comments")
+                    },
+                    403: function () {
+                        alert("You can't update this comments");
+                    }
+                }
+            });
+        }
+        else {
+            alert("Bạn chưa chỉnh sửa comments");
+        }
+
+    }
+    function deleteComment(id_baiviet, nguoidung, event) {
+        event.preventDefault();
+        if (nguoidung.toLowerCase() != getCookie("userUser").toLowerCase()) {
+            alert("Không thể chỉnh sửa bình luận này");
+        }
+        else {
+            $.ajax({
+                type: "DELETE",
+                url: "/binhluan/delone/" + id_baiviet,
+                data: {
+                    idNguoiDung: nguoidung,
+                },
+                success: function (response) {
+                    $("#all-" + id_baiviet).remove();
+                },
+                statusCode: {
+                    500: function () {
+                        alert("Server is down. please try again later")
+                    },
+                    404: function () {
+                        alert("Can't finds this comments")
+                    },
+                    403: function () {
+                        alert("You can't delete this comments");
+                    }
+                }
+            });
+        }
+
+    }
 </script>

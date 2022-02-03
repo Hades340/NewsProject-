@@ -18,6 +18,7 @@
         <script src="https://code.jquery.com/jquery-3.6.0.js"
             integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+        <script src="/src/views/public/js/ajax.js"></script>
     </head>
 
     <body class="d-flex flex-column h-100">
@@ -82,9 +83,9 @@
         <script src="/src/views/public/js/scripts.js"></script>
         <script>
             $(document).ready(function () {
-                var tokenUser = window.localStorage.getItem('userUser');
+                var tokenUser = getCookie('userUser');
                 console.log(tokenUser);
-                if (tokenUser != null) {
+                if (tokenUser != "") {
                     $("#navbarDropdownBlog").html("");
                     $("#navbarDropdownBlog").html(tokenUser);
                 }
@@ -104,7 +105,7 @@
                                 alert("You not login");
                             }
                             else {
-                                window.localStorage.removeItem("userUser");
+                                removeCookie("userUser");
                                 $("#navbarDropdownBlog").html("");
                                 $("#navbarDropdownBlog").html("User");
                             }
@@ -113,14 +114,14 @@
                     });
                 });
 
-                $("#typeNews").load("/loaitintuc/findall", "", function (response, status, request) {
+                $("#typeNews").load("/loaitt/findall", "", function (response, status, request) {
                     this; // dom element
                     var jsonData = JSON.parse(response);
                     console.log(jsonData);
                     var item = ``;
                     for (let i = 0; i < jsonData.length; i++) {
                         console.log(jsonData[i]);
-                        item += `<li><a class="dropdown-item menuNews" href="/admin/loaitintuc/` + jsonData[i].id + `">` + jsonData[i].loaibaiviet + `</a></li>`;
+                        item += `<li><a class="dropdown-item menuNews" href="/news/` + jsonData[i].id + `">` + jsonData[i].loaibaiviet + `</a></li>`;
                     }
                     $(this).html(item);
                 });

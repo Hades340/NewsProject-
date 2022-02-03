@@ -5,10 +5,11 @@ const TinTuc = function(tintuc){
     this.idloai = tintuc.idloai;
     this.tenbaiviet = tintuc.tenbaiviet;
     this.hinhanh = tintuc.hinhanh;
-    this.mieuta = tintuc.mieuta
+    this.mieuta = tintuc.mieuta;
+    this.chitiettintuc = tintuc.chitiettintuc
 };
 TinTuc.create = (newTinTuc , result)=>{
-    db.query("INSERT INTO tintuc(idloai,tenbaiviet,hinhanh,mieuta,deleteitem) VALUES ('"+newTinTuc.idloai+"','"+newTinTuc.tenbaiviet+"','"+newTinTuc.hinhanh+"','"+newTinTuc.mieuta+"',1)"
+    db.query("INSERT INTO tintuc(idloai,tenbaiviet,hinhanh,mieuta,deleteitem,chitiettintuc) VALUES ('"+newTinTuc.idloai+"','"+newTinTuc.tenbaiviet+"','"+newTinTuc.hinhanh+"','"+newTinTuc.mieuta+"',1,'"+newTinTuc.chitiettintuc+"')"
     ,(err,res)=>{
         if(err){
             console.log("Error",err);
@@ -49,7 +50,7 @@ TinTuc.getAll = result=>{
     });
 };
 TinTuc.updateTinTuc = (id, tintuc, result)=>{
-    db.query("UPDATE tintuc SET idloai=?, tenbaiviet=?, hinhanh=?, mieuta=?,deleteitem = 1 WHERE id =?",[tintuc.idloai,tintuc.tenbaiviet,tintuc.hinhanh,tintuc.mieuta,id],
+    db.query("UPDATE tintuc SET idloai=?, tenbaiviet=?, hinhanh=?, mieuta=?,deleteitem = 1,chitiettintuc = ? WHERE id =?",[tintuc.idloai,tintuc.tenbaiviet,tintuc.hinhanh,tintuc.mieuta,tintuc.chitiettintuc,id],
     (err,res)=>{
         if(err){
             console.log("Error",err);
@@ -84,7 +85,7 @@ TinTuc.removeTinTuc = (id,result) => {
 };
 
 TinTuc.getTinTucByLoaiTin = (id,result) => {
-    db.query("SELECT * FROM tintuc WHERE loaitin = ? and deleteitem = 1",id,
+    db.query("SELECT * FROM tintuc WHERE idloai = ? and deleteitem = 1",id,
     (err,res)=>{
         if(err){
             console.log("Error",err);
@@ -98,7 +99,7 @@ TinTuc.getTinTucByLoaiTin = (id,result) => {
 };
 
 TinTuc.getMoreTinTucByLoaiTin = (id,result) =>{
-    db.query(`SELECT * FROM tintuc where loaitin = ${id} LIMIT 3 and deleteitem = 1`,(err,res)=>{
+    db.query(`SELECT * FROM tintuc where idloai = ${id} LIMIT 3 and deleteitem = 1`,(err,res)=>{
         if(err){
             console.log("Error",err);
             result(err,null);
@@ -107,6 +108,21 @@ TinTuc.getMoreTinTucByLoaiTin = (id,result) =>{
         if(res.length){
             console.log("find success ",res[0]);
             result(null,res[0]); 
+            return; 
+        }
+        result({kind:"not found"},null);
+    });
+};
+TinTuc.getFourTinTuc = result =>{
+    db.query(`SELECT * FROM tintuc where  deleteitem = 1 order by id DESC LIMIT 4 `,(err,res)=>{
+        if(err){
+            console.log("Error",err);
+            result(err,null);
+            return;
+        }
+        if(res.length){
+            console.log("find success ",res);
+            result(null,res); 
             return; 
         }
         result({kind:"not found"},null);

@@ -14,6 +14,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="/src/views/public/js/ajax.js"></script>
     <style>
         .error {
             color: red;
@@ -124,7 +125,7 @@
                                 </div>`);
                             }
                             else {
-                                window.localStorage.setItem('user', res.data);
+                                setCookie("user",res.data,2);
                                 window.location.replace("http://localhost:8081/admin/index")
                             }
                         }

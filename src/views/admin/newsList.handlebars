@@ -1,4 +1,3 @@
-
 <div class="container-fluid px-4">
     <h1 class="mt-4">Tables</h1>
     <ol class="breadcrumb mb-4">
@@ -30,6 +29,7 @@
                         <th>Tên bài viết</th>
                         <th>Hình ảnh</th>
                         <th>Miêu tả</th>
+                        <th>Chi tiết</th>
                         <th>Options</th>
                     </tr>
                 </thead>
@@ -41,6 +41,7 @@
                         <th>Tên bài viết</th>
                         <th>Hình ảnh</th>
                         <th>Miêu tả</th>
+                        <th>Chi tiết</th>
                         <th>Options</th>
                     </tr>
                 </tfoot>
@@ -48,15 +49,16 @@
                     {{#each data}}
                     <tr id="news-{{this.id}}">
                         <td>
-                            <input  type="checkbox" value="{{this.id}}" class="flexCheckDefault">
+                            <input type="checkbox" value="{{this.id}}" class="flexCheckDefault">
                         </td>
-                        <td>{{this.id}}</td>
+                        <td>{{this.DateTime}}</td>
                         <td>{{this.idloai}} - {{this.loaibaiviet}}</td>
                         <td>{{this.tenbaiviet}}</td>
                         <td>
                             <img src="/src/views/img/{{this.hinhanh}}" alt="" style="width: 352px;height: 179px;">
                         </td>
                         <td>{{this.mieuta}}</td>
+                        <td>{{this.chitiettintuc}}</td>
                         <td><button type="button" class="btn btn-danger delete" id={{this.id}} data-toggle="modal"
                                 data-target="#exampleModal_delete">Delete</button>
                             <a class="btn btn-success" href='/admin/tintuc/findone/{{this.id}}'>Update</a>
@@ -102,7 +104,7 @@
         </div>
     </div>
 
-     <!-- Modal -->
+    <!-- Modal -->
     <div class="modal fade" id="exampleModal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModal_delete"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -136,82 +138,83 @@
                     type: "GET",
                     url: "/admin/comments/findbyid/" + id,
                     success: function (response) {
-                        console.log(" đây là giá trị trả về" + response);
-                        message = response.message;
-                            var html = ``
-                            var comment = JSON.parse(response);
-                            for (let i = 0; i < comment.lenght; i++) {
-                                html += `
+                        console.log(response);
+                        //message = response.message;
+                        var html = ``
+                        //var comment = JSON.parse(response);
+                        //console.log(" đây là giá trị trả về" + comment);
+                        for (let i = 0; i < response.length; i++) {
+                            html += `
                                     <tr>
-                                        <td>`+ comment[i].idNguoiDung + `</td>
-                                        <td>`+ comment[i].binhLuan + `</td>
+                                        <td>`+ response[i].idNguoiDung + `</td>
+                                        <td>`+ response[i].binhLuan + `</td>
                                     </tr>
                                     `;
-                            }
-                            $("#BinhLuan").html(html);
+                        }
+                        $("#BinhLuan").html(html);
                     },
                     statusCode: {
-                        404: function() {
-                        // Only if your server returns a 403 status code can it come in this block. :-)
-                              $("#BinhLuan").html("No comment in this news");
+                        404: function () {
+                            // Only if your server returns a 403 status code can it come in this block. :-)
+                            $("#BinhLuan").html("No comment in this news");
                         },
-                        500: function() {
-                        // Only if your server returns a 403 status code can it come in this block. :-)
-                              $("#BinhLuan").html("Server is down. please try again later");
+                        500: function () {
+                            // Only if your server returns a 403 status code can it come in this block. :-)
+                            $("#BinhLuan").html("Server is down. please try again later");
                         }
                     }
                 });
             });
-            $(".delete").click(function (e) { 
+            $(".delete").click(function (e) {
                 e.preventDefault();
                 idDelete = $(this).attr("id");
             });
-            $("#accept").click(function (e) { 
+            $("#accept").click(function (e) {
                 e.preventDefault();
-                console.log("giá trị ID là "+ idDelete);
+                console.log("giá trị ID là " + idDelete);
                 $.ajax({
                     type: "DELETE",
-                    url: "/admin/tintuc/delone/"+idDelete,
+                    url: "/admin/tintuc/delone/" + idDelete,
                     success: function (response) {
                         console.log(response);
-                        $("#news-"+idDelete).remove();
+                        $("#news-" + idDelete).remove();
                     },
-                    statusCode:{
-                        404: function() {
+                    statusCode: {
+                        404: function () {
                             // Only if your server returns a 403 status code can it come in this block. :-)
-                                alert("Can't find this item ")
-                            },
-                            500: function() {
+                            alert("Can't find this item ")
+                        },
+                        500: function () {
                             // Only if your server returns a 403 status code can it come in this block. :-)
                             alert("Server is down. please try again later")
-                            }
+                        }
                     }
                 });
             });
 
-            $("#deleteSelect").click(function (e) { 
+            $("#deleteSelect").click(function (e) {
                 e.preventDefault();
                 var favorite = [];
-                $.each($(".flexCheckDefault:checked"), function(){
+                $.each($(".flexCheckDefault:checked"), function () {
                     favorite.push($(this).val());
                 });
                 if (favorite.length >= 1) {
-                    console.log("hello"+favorite); 
+                    console.log("hello" + favorite);
                     $.ajax({
                         type: "DELETE",
                         url: "/admin/tintuc/delmany",
                         data: {
-                            idArray:favorite
+                            idArray: favorite
                         },
                         success: function (response) {
                             favorite.forEach(element => {
-                                $("#news-"+element).remove();
+                                $("#news-" + element).remove();
                             });
                         },
-                        statusCode:{
-                            500: function() {
-                            // Only if your server returns a 403 status code can it come in this block. :-)
-                            alert("Server is down. please try again later")
+                        statusCode: {
+                            500: function () {
+                                // Only if your server returns a 403 status code can it come in this block. :-)
+                                alert("Server is down. please try again later")
                             }
                         }
                     });

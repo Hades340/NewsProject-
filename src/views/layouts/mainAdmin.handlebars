@@ -16,6 +16,10 @@
             integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
         <script src="/src/views/public/js/ajax.js"></script>
+        <script src="/src/views/public/ckeditor_4.16.2_standard/ckeditor/ckeditor.js"></script>
+        <script src="/src/views/public/ckeditor_4.16.2_standard/ckeditor/styles.js"></script>
+        <script src="/src/views/public/ckeditor_4.16.2_standard/ckeditor/config.js"></script>
+        <script src="/src/views/public/ckeditor_4.16.2_standard/ckeditor/build-config.js"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <style>
@@ -190,7 +194,8 @@
                                     name="passwordNewsRepeat" placeholder="Password repeat ">
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary clear" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary clear"
+                                    data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary save">Save changes</button>
                             </div>
                         </form>
@@ -246,7 +251,7 @@
                         }
                     }
                 });
-                var token = window.localStorage.getItem('user');
+                var token = getCookie('user');
                 console.log(token);
                 $("#username").html(token);
                 $("#logout").click(function (e) {
@@ -256,7 +261,7 @@
                         url: "/user/logout",
                         data: "data",
                         success: function (response) {
-                            window.localStorage.clear();
+                            removeCookie("user")
                             window.location.replace("http://localhost:8081/admin")
                         }
                     });
@@ -275,17 +280,17 @@
                                 passwordNews: passwordNews
                             },
                             success: function (response) {
-                                if(response.username == token){
+                                if (response.username == token) {
                                     $("#password").val("");
                                     $("#passwordNews").val("");
                                     $("#passwordNewsRepeat").val("");
-                                        $(".alert").html(`
+                                    $(".alert").html(`
                                         <div class="alert alert-success" role="alert">
                                            Update password success!
                                         </div>
                                         `);
                                 }
-                            },statusCode: {
+                            }, statusCode: {
                                 404: function () {
                                     // Only if your server returns a 403 status code can it come in this block. :-)
                                     $(".alert").html(`
@@ -307,7 +312,7 @@
                     }
                 });
 
-                $(".clear").click(function (e) { 
+                $(".clear").click(function (e) {
                     e.preventDefault();
                     $(".alert").html(``);
                     $("#password").val("");
