@@ -1,7 +1,6 @@
 const mysql = require("mysql");
 const db = require("./db.js");
 const TinTuc = function(tintuc){
-    this.id = tintuc.id;
     this.idloai = tintuc.idloai;
     this.tenbaiviet = tintuc.tenbaiviet;
     this.hinhanh = tintuc.hinhanh;
@@ -18,7 +17,7 @@ TinTuc.create = (newTinTuc , result)=>{
         }
         console.log("Create success ");
         result(null,{
-            id:res.insertID, ...newTinTuc
+            id:res.insertId, ...newTinTuc
         });
     });
 };

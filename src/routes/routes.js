@@ -20,7 +20,7 @@ module.exports = app => {
 
   app.post("/admin/loaitintuc/ins", loaiTinTuc.create);
   app.get("/admin/loaitintuc/findall", loaiTinTuc.findAll);
-  app.get("admin/loaitintuc/all", loaiTinTuc.findAllJson);
+  app.get("/admin/loaitintuc/all", loaiTinTuc.findAllJson);
   app.get("/admin/loaitintuc/findone/:loaiTinTucID", loaiTinTuc.findOne);
   app.get("/admin/loaitintuc/find/:loaiTinTucID", loaiTinTuc.findOneJson);
   app.put("/admin/loaitintuc/update/:loaiTinTucID", loaiTinTuc.update);

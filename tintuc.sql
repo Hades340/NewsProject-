@@ -2,7 +2,8 @@ create database newsBlog;
 use newsBlog;
 CREATE table LOAITINTUC(
 	id bigint primary key auto_increment,
-	loaibaiviet nvarchar(50)
+	loaibaiviet nvarchar(50),
+    deleteitem bit
 );
 create table TINTUC(
 	id bigint primary key auto_increment,
@@ -10,6 +11,7 @@ create table TINTUC(
     tenbaiviet nvarchar(50),
     hinhanh text,
     mieuta text,
+	deleteitem bit,
 	FOREIGN KEY (idloai) REFERENCES LOAITINTUC(id)
 );
 
@@ -18,6 +20,7 @@ create table CHITIETTINTUC(
     idBaiViet bigint,
     chitietbaiviet text,
     hinhanh text,
+    deleteitem bit,
     FOREIGN KEY (idBaiViet) REFERENCES TINTUC(id)
 );
 
@@ -39,6 +42,7 @@ create table BINHLUAN(
     idBaiViet bigint,
     idNguoiDung nvarchar(50),
     binhLuan text,
+    deleteitem bit,
     FOREIGN KEY (idBaiViet) REFERENCES TINTUC(id),
     FOREIGN KEY (idNguoiDung) REFERENCES NGUOIDUNG(username)
 );

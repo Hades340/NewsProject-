@@ -104,8 +104,8 @@
                                 var hinhanh = hinhAnhCu[hinhAnhCu.length - 1];
                                 var idloai = $("#idloai :selected").val();
                                 var tenbaiviet = $("#tenbaiviet").val();
-                                var mieuta = $("#mieuta").val();
-                                var chitiettintuc = $("#chitiettintuc").val();
+                               var chitiettintuc = CKEDITOR.instances['chitiettintuc'].getData();
+                                var mieuta = CKEDITOR.instances['mieuta'].getData();
                                 var dataJson = {
                                     'hinhanh': hinhanh,
                                     'idloai': idloai,
@@ -121,8 +121,8 @@
                                 var hinhanh = $("#hinhanh")[0].files[0];
                                 var idloai = $("#idloai :selected").val();
                                 var tenbaiviet = $("#tenbaiviet").val();
-                                var mieuta = $("#mieuta").val();
-                                var chitiettintuc = $("#chitiettintuc").val();
+                                var chitiettintuc = CKEDITOR.instances['chitiettintuc'].getData();
+                                var mieuta = CKEDITOR.instances['mieuta'].getData();
                                 console.log(idloai + tenbaiviet);
                                 formData.append("idloai", idloai);
                                 formData.append("tenbaiviet", tenbaiviet);
@@ -213,11 +213,13 @@
                             var hinhanh = $("#hinhanh")[0].files[0];
                             var idloai = $("#idloai :selected").val();
                             var tenbaiviet = $("#tenbaiviet").val();
-                            var mieuta = $("#mieuta").val();
+                            var chitiettintuc = CKEDITOR.instances['chitiettintuc'].getData();
+                            var mieuta = CKEDITOR.instances['mieuta'].getData();
                             console.log(idloai + tenbaiviet);
                             formData.append("idloai", idloai);
                             formData.append("tenbaiviet", tenbaiviet);
                             formData.append("mieuta", mieuta);
+                            formData.append("chitiettintuc", chitiettintuc);
                             formData.append("hinhanh", hinhanh);
                             console.log(formData);
                             $.ajax({

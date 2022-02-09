@@ -155,7 +155,7 @@ function checkTinTuc(req, res) {
         })
     }
     else {
-        let messsage = checkAllBody(req, [req.body.idloai, req.body.tenbaiviet, req.body.mieuta]);
+        let messsage = checkAllBodyNotKey(req, [req.body.idloai, req.body.tenbaiviet, req.body.mieuta]);
         if (isNullEmpty(messsage)) {
             count++;
             console.log(messsage);
